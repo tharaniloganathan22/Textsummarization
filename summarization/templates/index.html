@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DO LITTLE</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>DO LITTLE</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="text">Enter Text:</label>
+                <textarea class="form-control" id="text" name="text" rows="10" placeholder="Enter the text..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pdf_file">Upload PDF Document:</label>
+                <input type="file" class="form-control-file" id="pdf_file" name="pdf_file" accept=".pdf">
+            </div>
+            <button type="submit" name="action" value="summarize" class="btn btn-primary">Summarize</button>
+            <button type="submit" name="action" value="analyze" class="btn btn-secondary">Semantic Analysis</button>
+            <button type="submit" name="action" value="parse" class="btn btn-info">Parse Sentence</button>
+            <div class="form-check mt-3">
+                <input type="checkbox" class="form-check-input" id="download_pdf" name="download_pdf">
+                <label class="form-check-label" for="download_pdf">Download Summary as PDF</label>
+            </div>
+        </form>
+
+        {% if summary %}
+        <div class="mt-5">
+            <h3>Summary:</h3>
+            <p>{{ summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if analysis %}
+        <div class="mt-5">
+            <h3>Semantic Analysis:</h3>
+            <ul>
+                {% for token in analysis %}
+                    <li>Text: {{ token.0 }}, Lemma: {{ token.1 }}, POS: {{ token.2 }}, Dependency: {{ token.3 }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if parse_trees %}
+        <div class="mt-5">
+            <h3>Parsed Sentence:</h3>
+            <ul>
+                {% for tree in parse_trees %}
+                    <li>{{ tree }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
