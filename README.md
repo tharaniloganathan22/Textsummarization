@@ -1,4 +1,4 @@
-# Textsummarization
+# VerbiView
 # textsummarization
 Text Summarizer, Analyzer, and Parser
 Overview
